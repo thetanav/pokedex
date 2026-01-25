@@ -2,6 +2,8 @@ import { View, Text, ScrollView, Image, Switch, Pressable } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useLocalSearchParams, Stack } from "expo-router";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { useMutation, useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
 interface PokemonDetails {
   name: string;
@@ -35,6 +37,11 @@ const Details = () => {
   const [male, setMale] = useState(true);
   const [shiny, setShiny] = useState(false);
 
+  const isFav = useQuery(api.favorites.isFavorite, {
+    pokemonName: name as string,
+  });
+  const toggleFav = useMutation(api.favorites.toggleFavorite);
+
   useEffect(() => {
     if (name) {
       fetchPokemonDetails(name as string);
@@ -54,6 +61,14 @@ const Details = () => {
       setLoading(false);
     }
   }
+
+  const handleToggleFavorite = async () => {
+    try {
+      await toggleFav({ pokemonName: name as string });
+    } catch (error) {
+      console.error("Failed to toggle favorite:", error);
+    }
+  };
 
   const getTypeColor = (type: string) => {
     const colors: Record<string, string> = {
@@ -136,7 +151,14 @@ const Details = () => {
         options={{
           title: pokemon.name.toLocaleUpperCase(),
           headerRight: () => (
-            <View className="flex-row items-center mr-4">
+            <View className="flex-row items-center mr-4 gap-2">
+              <Pressable onPress={handleToggleFavorite}>
+                <Ionicons
+                  name={isFav ? "heart" : "heart-outline"}
+                  size={24}
+                  color={isFav ? "#EF4444" : "#6B7280"}
+                />
+              </Pressable>
               <Text className="mr-2 text-sm">F/M</Text>
               <Switch
                 value={!male}
