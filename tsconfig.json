@@ -12,6 +12,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".expo/types/**/*.ts",
-    "expo-env.d.ts"
-, "app/(root)/properties"  ]
+    "expo-env.d.ts",
+    "app/(root)/properties",
+    "nativewind-env.d.ts"
+  ]
 }

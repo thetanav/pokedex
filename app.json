@@ -1,12 +1,12 @@
 {
   "expo": {
-    "name": "restate",
-    "slug": "restate",
+    "name": "pokedex",
+    "slug": "pokedex",
     "bundler": "metro",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "restate",
+    "scheme": "pokedex",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
@@ -26,7 +26,7 @@
     },
     "web": {
       "bundler": "metro",
-      "output": "static",
+      "output": "pokedex",
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [

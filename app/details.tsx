@@ -1,6 +1,7 @@
 import { View, Text, ScrollView, Image, Switch, Pressable } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useLocalSearchParams, Stack } from "expo-router";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 
 interface PokemonDetails {
   name: string;
@@ -19,6 +20,7 @@ interface PokemonDetails {
     name: string;
     url: string;
   };
+  id: number;
   types: { type: { name: string } }[];
   weight: number;
   height: number;
@@ -111,7 +113,8 @@ const Details = () => {
   if (loading) {
     return (
       <View className="flex-1 justify-center items-center">
-        <Text className="text-xl">Loading...</Text>
+        <Ionicons name="refresh-circle" size={48} color="#007AFF" />
+        <Text className="text-xl mt-4">Loading...</Text>
       </View>
     );
   }
@@ -119,7 +122,8 @@ const Details = () => {
   if (!pokemon) {
     return (
       <View className="flex-1 justify-center items-center">
-        <Text className="text-xl">Pokemon not found</Text>
+        <Ionicons name="alert-circle-outline" size={48} color="#EF4444" />
+        <Text className="text-xl mt-4">Pokemon not found</Text>
       </View>
     );
   }
@@ -133,8 +137,14 @@ const Details = () => {
           title: pokemon.name.toLocaleUpperCase(),
           headerRight: () => (
             <View className="flex-row items-center mr-4">
-              <Text className="mr-2">F/M</Text>
-              <Switch value={male} onValueChange={setMale} />
+              <Text className="mr-2 text-sm">F/M</Text>
+              <Switch
+                value={!male}
+                onValueChange={(value) => setMale(!value)}
+                trackColor={{ false: "#767577", true: "#EC4899" }}
+                thumbColor={!male ? "#fff" : "#f4f3f4"}
+                disabled={!pokemon.sprites.front_female}
+              />
             </View>
           ),
         }}
@@ -143,9 +153,12 @@ const Details = () => {
         <Pressable
           onPressIn={() => setShiny(true)}
           onPressOut={() => setShiny(false)}
-          className="realative items-center py-10"
+          className="relative items-center py-10"
           android_ripple={{ color: "rgba(0,0,0,0.15)" }}
         >
+          <Text className="absolute top-4 left-4 text-neutral-400 text-2xl font-black rounded-md">
+            #{pokemon.id}
+          </Text>
           {shiny && (
             <Text className="absolute top-4 right-4 bg-yellow-200 text-yellow-800 text-sm px-3 py-1 rounded-md">
               SHINY
@@ -170,7 +183,10 @@ const Details = () => {
         </Pressable>
 
         <View className="gap-2">
-          <Text className="text-xl font-bold">Types</Text>
+          <View className="flex-row items-center mb-2">
+            <Ionicons name="pricetag" size={20} color="#6B7280" />
+            <Text className="text-xl font-bold ml-2">Types</Text>
+          </View>
           <View className="flex-row gap-2">
             {pokemon.types.map((type, index) => (
               <View
@@ -185,7 +201,10 @@ const Details = () => {
         </View>
 
         <View className="gap-2">
-          <Text className="text-xl font-bold">Physical Stats</Text>
+          <View className="flex-row items-center mb-2">
+            <MaterialIcons name="straighten" size={20} color="#6B7280" />
+            <Text className="text-xl font-bold ml-2">Physical Stats</Text>
+          </View>
           <View className="flex-row justify-between">
             <Text>Height: {pokemon.height / 10} m</Text>
             <Text>Weight: {pokemon.weight / 10} kg</Text>
@@ -193,7 +212,10 @@ const Details = () => {
         </View>
 
         <View className="gap-2">
-          <Text className="text-xl font-bold">Abilities</Text>
+          <View className="flex-row items-center mb-2">
+            <Ionicons name="flash" size={20} color="#6B7280" />
+            <Text className="text-xl font-bold ml-2">Abilities</Text>
+          </View>
           <View className="flex-row flex-wrap gap-2">
             {pokemon.abilities.map((ability, index) => (
               <View key={index} className="bg-gray-200 px-3 py-1 rounded-full">
@@ -209,7 +231,10 @@ const Details = () => {
         </View>
 
         <View className="gap-2">
-          <Text className="text-xl font-bold">Base Stats</Text>
+          <View className="flex-row items-center mb-2">
+            <Ionicons name="stats-chart" size={20} color="#6B7280" />
+            <Text className="text-xl font-bold ml-2">Base Stats</Text>
+          </View>
           {pokemon.stats.map((stat, index) => (
             <View key={index} className="flex-row justify-between items-center">
               <Text className="capitalize w-24">
