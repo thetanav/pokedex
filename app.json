@@ -1,17 +1,20 @@
 {
   "expo": {
-    "name": "billion-dollar-app",
-    "slug": "billion-dollar-app",
+    "name": "restate",
+    "slug": "restate",
+    "bundler": "metro",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "billiondollarapp",
+    "scheme": "restate",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
+      "bundler": "metro",
       "supportsTablet": true
     },
     "android": {
+      "bundler": "metro",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -22,6 +25,7 @@
       "predictiveBackGestureEnabled": false
     },
     "web": {
+      "bundler": "metro",
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
