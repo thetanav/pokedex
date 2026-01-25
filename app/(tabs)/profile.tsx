@@ -2,6 +2,7 @@ import { View, Text, TouchableOpacity, Alert, Image } from "react-native";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import { Link } from "expo-router";
 import { auth } from "@/convex/auth";
 
 export default function Profile() {
@@ -46,6 +47,23 @@ export default function Profile() {
           <Text style={{ fontSize: 16, color: "#666", marginBottom: 24 }}>
             {user.email}
           </Text>
+          <Link href="/favorites" asChild>
+            <TouchableOpacity
+              style={{
+                backgroundColor: "#3B82F6",
+                paddingVertical: 12,
+                paddingHorizontal: 24,
+                borderRadius: 8,
+                width: "100%",
+                alignItems: "center",
+                marginBottom: 16,
+              }}
+            >
+              <Text style={{ color: "white", fontSize: 16, fontWeight: "600" }}>
+                View Favorite Pokemon
+              </Text>
+            </TouchableOpacity>
+          </Link>
         </>
       ) : (
         <Text style={{ fontSize: 16, color: "#666", marginBottom: 24 }}>

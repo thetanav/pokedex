@@ -47,6 +47,12 @@ function AuthenticatedLayout() {
           title: "Details",
         }}
       />
+      <Stack.Screen
+        name="favorites"
+        options={{
+          title: "Favorites",
+        }}
+      />
     </Stack>
   );
 }

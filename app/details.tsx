@@ -8,14 +8,15 @@ import { api } from "@/convex/_generated/api";
 interface PokemonDetails {
   name: string;
   sprites: {
-    front_default: string;
-    back_default: string;
-    back_female: string;
-    back_shiny: string;
-    back_shiny_female: string;
-    front_female: string;
-    front_shiny: string;
-    front_shiny_female: string;
+    other: {
+      home: {
+        front_default: string;
+        front_female: string;
+        front_shiny: string;
+        front_shiny_female: string;
+      };
+    };
+    versions: any;
   };
   base_experience: number;
   species: {
@@ -26,6 +27,7 @@ interface PokemonDetails {
   types: { type: { name: string } }[];
   weight: number;
   height: number;
+  order: number;
   abilities: { ability: { name: string } }[];
   stats: { base_stat: number; stat: { name: string } }[];
 }
@@ -100,27 +102,23 @@ const Details = () => {
         front: null,
         back: null,
       };
-    if (male || !pokemon.sprites.front_female) {
+    if (!male && pokemon.sprites.other.home.front_female) {
       if (shiny) {
         return {
-          front: pokemon.sprites.front_shiny,
-          back: pokemon.sprites.back_shiny,
+          img: pokemon.sprites.other.home.front_shiny_female,
         };
       }
       return {
-        front: pokemon.sprites.front_default,
-        back: pokemon.sprites.back_default,
+        img: pokemon.sprites.other.home.front_female,
       };
     } else {
       if (shiny) {
         return {
-          front: pokemon.sprites.front_shiny_female,
-          back: pokemon.sprites.back_shiny_female,
+          img: pokemon.sprites.other.home.front_shiny,
         };
       }
       return {
-        front: pokemon.sprites.front_female,
-        back: pokemon.sprites.back_female,
+        img: pokemon.sprites.other.home.front_default,
       };
     }
   };
@@ -159,14 +157,12 @@ const Details = () => {
                   color={isFav ? "#EF4444" : "#6B7280"}
                 />
               </Pressable>
-              <Text className="mr-2 text-sm">F/M</Text>
-              <Switch
-                value={!male}
-                onValueChange={(value) => setMale(!value)}
-                trackColor={{ false: "#767577", true: "#EC4899" }}
-                thumbColor={!male ? "#fff" : "#f4f3f4"}
-                disabled={!pokemon.sprites.front_female}
-              />
+              {pokemon.sprites.other.home.front_female && (
+                <>
+                  <Text className="mr-2 text-sm">F/M</Text>
+                  <Switch value={male} onValueChange={() => setMale(!male)} />
+                </>
+              )}
             </View>
           ),
         }}
@@ -175,7 +171,7 @@ const Details = () => {
         <Pressable
           onPressIn={() => setShiny(true)}
           onPressOut={() => setShiny(false)}
-          className="relative items-center py-10"
+          className="relative flex items-center justify-center py-1"
           android_ripple={{ color: "rgba(0,0,0,0.15)" }}
         >
           <Text className="absolute top-4 left-4 text-neutral-400 text-2xl font-black rounded-md">
@@ -186,21 +182,12 @@ const Details = () => {
               SHINY
             </Text>
           )}
-          <View className="flex-row gap-4">
-            {sprites.front && (
-              <Image
-                key={sprites.front}
-                source={{ uri: sprites.front }}
-                style={{ width: 150, height: 150 }}
-              />
-            )}
-            {sprites.back && (
-              <Image
-                key={sprites.back}
-                source={{ uri: sprites.back }}
-                style={{ width: 150, height: 150 }}
-              />
-            )}
+          <View>
+            <Image
+              key={sprites.img}
+              source={{ uri: sprites.img }}
+              style={{ width: 300, height: 300 }}
+            />
           </View>
         </Pressable>
 
@@ -247,7 +234,10 @@ const Details = () => {
               </View>
             ))}
             <View className="bg-gray-200 px-3 py-1 rounded-full">
-              <Text className="capitalize">EXP: {pokemon.base_experience}</Text>
+              <Text className="capitalize">Exp: {pokemon.base_experience}</Text>
+            </View>
+            <View className="bg-gray-200 px-3 py-1 rounded-full">
+              <Text className="capitalize">Gen: {pokemon.order}</Text>
             </View>
           </View>
         </View>
@@ -271,6 +261,28 @@ const Details = () => {
               <Text className="w-8 text-right">{stat.base_stat}</Text>
             </View>
           ))}
+        </View>
+
+        <View>
+          <View className="flex-row items-center mb-2">
+            <Ionicons name="stats-chart" size={20} color="#6B7280" />
+            <Text className="text-xl font-bold ml-2">Generations</Text>
+          </View>
+          <View
+            className="flex gap-3"
+            style={{
+              flexDirection: "row",
+              overflowX: "scroll",
+            }}
+          >
+            {Object.values(pokemon.sprites.versions).map((v: any) => (
+              <Image
+                key={(Object.values(v)[0] as any).front_default as string}
+                source={{ uri: (Object.values(v)[0] as any).front_default }}
+                style={{ width: 50, height: 50 }}
+              />
+            ))}
+          </View>
         </View>
       </ScrollView>
     </>
