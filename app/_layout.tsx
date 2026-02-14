@@ -3,9 +3,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ConvexReactClient } from "convex/react";
 import "./globals.css";
 import * as SecureStore from "expo-secure-store";
-import { Platform } from "react-native";
+import { Platform , ActivityIndicator, View } from "react-native";
 import { ConvexAuthProvider, useAuthToken } from "@convex-dev/auth/react";
-import { ActivityIndicator, View } from "react-native";
 
 const queryClient = new QueryClient();
 

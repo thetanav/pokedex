@@ -14,6 +14,7 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.tanav.pokedex",
       "bundler": "metro",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
@@ -48,6 +49,12 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "d95f3321-7a3c-4574-ae19-b211b1d8d295"
+      }
     }
   }
 }

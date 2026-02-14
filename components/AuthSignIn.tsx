@@ -1,8 +1,7 @@
 import { useAuthActions } from "@convex-dev/auth/react";
-import { View, Text, TouchableNativeFeedback } from "react-native";
+import { View, Text, TouchableNativeFeedback , Button, Platform } from "react-native";
 import { makeRedirectUri } from "expo-auth-session";
 import { openAuthSessionAsync } from "expo-web-browser";
-import { Button, Platform } from "react-native";
 import { useRouter } from "expo-router";
 
 const redirectTo = makeRedirectUri();
